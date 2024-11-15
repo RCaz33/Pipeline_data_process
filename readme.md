@@ -1,4 +1,12 @@
+
 Application to automatize Raman spectra processing
+
+Developpment steps
+1- Notebook Sprint5_RD_3_Raman.ipynb => code developpment
+2- Notebook Sprint6_RD_1_Raman.ipynb => tests + comparisons manual extraction
+3- Script Sprint6_RD_Raman_utils.py => Defines class Raman_Spectra to use
+4- Notebook Sprint6_RD_1.2_Raman.ipynb => Troubleshooting (noisy spectras, new source of analysis, ...)
+ 
 
 - parse all the raman spectra (.csv) of a given folder
 - sort spectra by the hiegh of a given peak (v1.0 -> uses peak at 2700 cm-1 & 1600 cm-1)
