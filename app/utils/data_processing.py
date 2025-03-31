@@ -8,6 +8,35 @@ import matplotlib.pyplot as plt
 from pybaselines import Baseline
 from scipy.signal import savgol_filter, find_peaks, peak_widths
 import scipy
+import streamlit as st
+
+
+# Function to generate the graph
+def generate_graph(sorted_data,choix_decile):
+    decile_1 = np.quantile(sorted_data.columns, choix_decile)
+    idx = [i for i in range(len(sorted_data.columns)) if sorted_data.columns[i] > decile_1][0]
+
+    fig, axs = plt.subplots(1, 3, figsize=(12, 3))
+
+    colors = sns.color_palette("crest", 10)
+    c = sns.color_palette("Spectral",as_cmap=True)
+
+    _offset = sorted_data.iloc[:, idx-5+0].max()
+    for i in range(10):
+        offset = i * _offset
+        (sorted_data.iloc[:, idx-5+i] + offset).plot(legend=False, c=colors[i], alpha=0.75, ax=axs[0])
+
+    axs[0].set_title("10 spectres autour de la valeur decile")
+    sorted_data.iloc[:, idx:].plot(legend=False, cmap=c, alpha=0.5, ax=axs[1])
+    axs[1].set_title("tous les spectres conservés")
+    sorted_data.mean(axis=1).plot(c='r', alpha=0.75, legend=False, ax=axs[2])
+    sorted_data.iloc[:, idx:].mean(axis=1).plot(c='b', legend=False, ax=axs[2])
+    axs[2].set_title("spectres moyens avt/apres filtrage")
+
+    st.text(f"avec un decile à {choix_decile*100}%, on utilise {sorted_data.shape[1]-idx}/{sorted_data.shape[1]} spectres Raman")
+    st.pyplot(fig)
+    
+    
 
 # fonction to fit gaussian peaks , use methdo because doesnt access self 
 def _1gaussian(x, amp1,cen1,sigma1):
@@ -98,15 +127,12 @@ class Raman_Spectra:
         return _int.sort_index().T 
     
     
-    def choix_threshold(self):
-        choix_decile = 0.1
+    def choix_threshold(self, decile=0.1):
+        choix_decile = decile #0.1
         validation = False
         c = sns.color_palette("Spectral",as_cmap=True)
 
         while not validation:
-            
-            
-            
             decile_1 = np.quantile(self.sorted_data.columns, choix_decile)
             idx = [i for i in range(len(self.sorted_data.columns)) if self.sorted_data.columns[i] > decile_1][0]
 
@@ -130,9 +156,6 @@ class Raman_Spectra:
 
             print(f"avec un decile à {choix_decile*100}%, on utilise {self.sorted_data.shape[1]-idx}/{self.sorted_data.shape[1]} spectres Raman")
             plt.show()
-            
-            
-            
             
             validation = input('OK or not? write OK if OK')
             validation = False if validation != 'OK' else True
@@ -203,10 +226,12 @@ class Raman_Spectra:
             # peaks identification
             _peaks = self.peaks_ids
 
-            plt.plot(x, self.ready_data.values)
+
+            fig, ax = plt.subplots(figsize=(3,2))
+            ax.plot(x, self.ready_data.values)
             for i in _peaks[1]:
-                plt.axvline(x[_peaks[0][i]], lw=0.5,c='r')
-            plt.show()
+                ax.axvline(x[_peaks[0][i]], lw=0.5,c='r')
+            return fig
 
 
     # # fonction to fit gaussian peaks , use methdo because doesnt access self 
@@ -428,4 +453,5 @@ class Raman_Spectra:
         axs[2].plot(self.ready_data)
         axs[2].set_xlim(2500,2800)
         
-        plt.show()
+        # plt.show()
+        return fig
