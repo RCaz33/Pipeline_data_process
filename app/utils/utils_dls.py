@@ -75,10 +75,13 @@ class extract_DLS:
         self.path = path
         self.all_data = None
         self.data_ready = None
-        self.report=None
+        self.recap=None
 
     def show_report(self):
-        return self.report
+        return self.recap
+    
+    def show_ready(self):
+        return self.data_ready
 
     def gather_data(self):
         path = self.path
@@ -121,8 +124,8 @@ class extract_DLS:
         'Order2 Expansion Parameter µ2']
         
         recap = to_use.loc[:,['Samplename']+col_to_keep].sort_values(by='Samplename').groupby('Samplename').agg(['mean','std'])
-        
         self.recap = recap
+        
     
     def export_xlsx(self):
         
@@ -134,7 +137,7 @@ class extract_DLS:
         'Order2 DiffCoefficient [µm²/s]', 'Order2 Hydrodyn. Radius [nm]',
         'Order2 Expansion Parameter µ2']
 
-        with pd.ExcelWriter(f"data/DLS/data_{sample_date}4.xlsx") as writer:        
+        with pd.ExcelWriter(f"app/Disk_mount/DLS/recap_{sample_date}.xlsx") as writer:        
             
             for sample in to_use.Samplename.value_counts().index:
                 _ = to_use.loc[to_use.Samplename == sample, col_to_keep].sort_values(by='Angle [°]')

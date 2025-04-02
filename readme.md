@@ -35,6 +35,8 @@ INSTALLATION :
 2 - Navigate to app_streamlit
 
 3 - Build docker image [ docker build -t <NAME_IMAGE> . ]
+	--> may need to change user ID in the dockerfile to allow writing on disk : "RUN groupadd -g ${GROUP_ID} <group_name>" "RUN useradd -u ${USER_ID} -g <group_name> -m <user_session_name>" 
+	==> run "id" in terminal to get the ids
 
 4 - Prepare run with CREDENTIALS for AZURE (-e LANGUAGE_ENDPOINT="..." -e LANGUAGE_KEY="...")
 

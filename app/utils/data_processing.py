@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from pybaselines import Baseline
 from scipy.signal import savgol_filter, find_peaks, peak_widths
 import scipy
-import streamlit as st
 
 
 # Function to generate the graph
@@ -167,7 +166,7 @@ class Raman_Spectra:
         return self.filtered_data
     
     def choix_threshold_auto(self,threshold=0.66):
-        """FIlter data gicven a quantile threshold
+        """Filter data given a quantile threshold
 
         Args:
             sorted_data (pd.DataFrame): raman data with wavenumber as index
@@ -438,7 +437,7 @@ class Raman_Spectra:
         if self.ready_data is None or self.fitted_curve is None:
             raise ValueError("You must prepare_data_for_fit and fit_peaks before checking fit")
         
-        fig, axs = plt.subplots(1,3, figsize=(18,6))
+        fig, axs = plt.subplots(3,1, figsize=(6,18))
         x = self.ready_data.index
         axs[0].plot(x, self.fitted_curve['peak_1'])
         axs[0].plot(self.ready_data)
