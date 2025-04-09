@@ -29,7 +29,7 @@ st.write("Option1 : click droit & 'copier en tant que chemin d'acces'")
 st.write("Option2 : Ctrl + Shift + c ---> Ctrl + v")
 
 # Champ de texte pour entrer le chemin du dossier
-folder_path = st.text_input("Entrez le chemin du fichier")
+folder_path = st.text_input('Entrez le chemin du dossier entre guillements {"}')
 
 # préparer les données
 if folder_path:

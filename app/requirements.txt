@@ -7,3 +7,4 @@ pybaselines==1.1.0
 scipy==1.13.1
 streamlit==1.40.1
 openpyxl
+scikit-learn

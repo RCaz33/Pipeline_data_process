@@ -19,7 +19,7 @@ st.write("Collez le chemin d'accès ci-dessous puis appuyez sur 'Entrée'")
 st.write("Autre option : Ctrl + Shift + c ---> Ctrl + v")
 
 # Champ de texte pour entrer le chemin du dossier
-folder_path = st.text_input("Entrez le chemin du fichier")
+folder_path = st.text_input('Entrez le chemin du dossier entre guillements {"}')
 
 # DEBUG IMPORT/EXPORT
 # st.text(f"path used: {folder_path.replace("\\","/").replace("C:","/mnt/c")}")
